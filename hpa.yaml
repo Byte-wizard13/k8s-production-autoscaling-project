@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: production-web-autoscaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: production-web-app   # आपल्या प्रोजेक्ट २ च्या डिप्लॉयमेंटचे नाव
+  minReplicas: 2   # ट्रॅफिक कमी असताना कमीत कमी २ पॉड्स चालणार
+  maxReplicas: 10  # ट्रॅफिक वाढल्यास आपोआप १० पॉड्सपर्यंत वाढणार
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70   # सीपीयू वापर ७०% च्या वर गेला की नवीन पॉड तयार होणार
