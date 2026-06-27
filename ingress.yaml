@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: production-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"   # 🎯 इंटरव्यू स्पेशल: SSL/TLS सक्तीचे करणे
+spec:
+  ingressClassName: nginx   # Nginx Ingress Controller वापरणार
+  rules:
+  - host: ://mycompany.com   # तुमचा अधिकृत डोमेन पत्ता
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: production-web-service   # आपल्या प्रोजेक्ट २ च्या सर्व्हिसचे नाव
+            port:
+              number: 80
